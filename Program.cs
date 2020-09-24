@@ -14,6 +14,7 @@ namespace BulkCopyPostGresPractice
             table.Columns.Add("num", typeof(int));
             table.Columns.Add("numstring", typeof(string));
             table.Columns.Add("description", typeof(string));
+            table.Columns.Add("someid", typeof(Guid));
 
             for (int i = 0; i < 10; i++)
             {
@@ -22,7 +23,13 @@ namespace BulkCopyPostGresPractice
                 row["numstring"] = i.ToString();
                 // Commented below line to test for null case.
                 // row["description"] = "sfsdf";
+                row["someid"] = Guid.NewGuid();
                 table.Rows.Add(row);
+            }
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                var column = table.Columns[i];
+                Console.WriteLine($"full name: {column.DataType.FullName}");
             }
 
             using (var conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;Database=joyn_fdgcommon_dev;User Id=postgres;Password=admin;"))
